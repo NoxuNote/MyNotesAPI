@@ -16,7 +16,8 @@
     "connect": "^3.2.0",
     "js-yaml": "^3.3.0",
     "mongoose": "^5.9.27",
-    "oas3-tools": "^2.0.2"
+    "oas3-tools": "^2.0.2",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
