@@ -7,11 +7,11 @@ export class ResponsePayload {
   }
 }
 
-exports.respondWithCode = function(code: any, payload: any) {
+export function respondWithCode(code: any, payload: any) {
   return new ResponsePayload(code, payload);
 }
 
-var writeJson = exports.writeJson = function(response: any, arg1: any, arg2: any) {
+export function writeJson(response: any, arg1: any, arg2: any) {
   var code;
   var payload;
 

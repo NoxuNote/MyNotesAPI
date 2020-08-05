@@ -1,6 +1,10 @@
 {
     "compilerOptions": {
-      "module": "system",
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "target": "es6",
+      "suppressImplicitAnyIndexErrors": true,
+      "moduleResolution": "node",
       "noImplicitAny": true,
       "removeComments": true,
       "preserveConstEnums": true,

@@ -57,8 +57,7 @@ paths:
           description: UUID of note to return
           schema:
             format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
             type: string
           in: path
           required: true
@@ -289,34 +288,42 @@ paths:
       summary: Update an already existing and shared with you note content
       x-swagger-router-controller: Default
     x-last-modified: 1594741230002
-  /account/:
+  /account:
     summary: Other's note shared with me
-    x-last-modified: 1596621278667
     post:
-      description: ''
-      operationId: createAccount
       parameters:
-        - in: query
+        - deprecated: false
           example: me@example.com
-          required: true
-          deprecated: false
-          allowEmptyValue: false
           description: Your email
-          x-last-modified: 1596621629083
           schema:
-            example: me@example.com
-            type: string
             format: email
-            pattern: >-
-              (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
-            enum: []
             description: Your email
-          type: string
-          format: email
-          pattern: >-
-            (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
-          enum: []
+            pattern: '(?:[a-z0-9!#$%&''*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])'
+            type: string
+            example: me@example.com
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1596663222011
           name: email
+      operationId: createAccount
+      description: ''
+      responses:
+        '200':
+          description: |-
+            OK: account created
+
+            returns the UUID of the account
+          content:
+            text/plain:
+              schema:
+                example: ''
+                type: string
+                format: uuid
+                pattern: ''
+              example: ''
+          x-last-modified: 1596663297422
+    x-last-modified: 1596663175324
 components:
   schemas:
     NoteMetadata:

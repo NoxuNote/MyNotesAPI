@@ -1,22 +1,22 @@
-import sequelize, { Sequelize, DataTypes, UUIDV4, STRING, Instance, DefineModelAttributes } from "sequelize";
+import * as Sequelize from 'sequelize';
 
 export interface AccountAttributes {
     accountUuid: string;
     email: string;
 }
 
-export interface AccountInstance extends Instance<AccountAttributes>, AccountAttributes { }
+export interface AccountInstance extends Sequelize.Instance<AccountAttributes>, AccountAttributes { }
 
-export const AccountFactory = (sequelize: Sequelize, DataTypes: DataTypes)
-    : sequelize.Model<AccountInstance, AccountAttributes> => {
+export const AccountFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
+    : Sequelize.Model<AccountInstance, AccountAttributes> => {
 
-        const attributes : DefineModelAttributes<AccountAttributes> = {
+        const attributes : Sequelize.DefineModelAttributes<AccountAttributes> = {
             accountUuid: {
-                type: UUIDV4,
-                defaultValue: UUIDV4 // Or Sequelize.UUIDV1
+                type: Sequelize.UUIDV4,
+                defaultValue: Sequelize.UUIDV4 // Or Sequelize.UUIDV1
             },
             email: {
-                type: STRING,
+                type: Sequelize.STRING,
                 defaultValue: 'mail@example.com'
             }
         }
