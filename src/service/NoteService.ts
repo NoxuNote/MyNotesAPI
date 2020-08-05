@@ -1,15 +1,12 @@
 'use strict';
-
-import { DbInterface } from "../orm/DbInterface";
-
-const db: DbInterface = require('../orm/db')
-
+import { Account } from "../orm/models/Account";
 /**
  *
  * email String Your email
  * no response value expected for this operation
  **/
 exports.createAccount = function(email: string) {
+  Account.create({email: 'test'})
   return new Promise(function(resolve, reject) {
     resolve();
   });
