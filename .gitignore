@@ -6,5 +6,7 @@ package-lock.json
 .vscode
 
 # environment files
-environment/*
-!environment/environment.model.js
+environment/environment.prod.ts
+
+# compilation
+dist/

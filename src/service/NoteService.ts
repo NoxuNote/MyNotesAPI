@@ -1,5 +1,21 @@
 'use strict';
 
+import { DbInterface } from "../orm/DbInterface";
+
+const db: DbInterface = require('../orm/db')
+
+/**
+ *
+ * email String Your email
+ * no response value expected for this operation
+ **/
+exports.createAccount = function(email: string) {
+  return new Promise(function(resolve, reject) {
+    resolve();
+  });
+}
+
+
 /**
  * Creates a new empty note
  *
@@ -18,7 +34,7 @@ exports.createNewNote = function() {
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-exports.deleteNoteById = function(noteUUID) {
+exports.deleteNoteById = function(noteUUID: string) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -32,7 +48,7 @@ exports.deleteNoteById = function(noteUUID) {
  **/
 exports.getAllNoteMetadata = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
+    var examples: any = {};
     examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -50,7 +66,7 @@ exports.getAllNoteMetadata = function() {
  **/
 exports.getAllSharedNoteMetadata = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
+    var examples: any = {};
     examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -67,7 +83,7 @@ exports.getAllSharedNoteMetadata = function() {
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-exports.getNoteContentById = function(noteUUID) {
+exports.getNoteContentById = function(noteUUID: string) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -80,9 +96,9 @@ exports.getNoteContentById = function(noteUUID) {
  * noteUUID UUID UUID of note to return
  * returns NoteMetadata
  **/
-exports.getNoteMetadataById = function(noteUUID) {
+exports.getNoteMetadataById = function(noteUUID: string) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
+    var examples: any = {};
     examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -99,7 +115,7 @@ exports.getNoteMetadataById = function(noteUUID) {
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-exports.getSharedNoteContentById = function(noteUUID) {
+exports.getSharedNoteContentById = function(noteUUID: string) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -112,9 +128,9 @@ exports.getSharedNoteContentById = function(noteUUID) {
  * noteUUID #/components/parameters/noteUUID 
  * returns NoteMetadata
  **/
-exports.getSharedNoteMetadataById = function(noteUUID) {
+exports.getSharedNoteMetadataById = function(noteUUID: string) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
+    var examples: any = {};
     examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -131,7 +147,7 @@ exports.getSharedNoteMetadataById = function(noteUUID) {
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-exports.updateNoteContentById = function(noteUUID) {
+exports.updateNoteContentById = function(noteUUID: string) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -145,7 +161,7 @@ exports.updateNoteContentById = function(noteUUID) {
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-exports.updateNoteMetadataById = function(body,noteUUID) {
+exports.updateNoteMetadataById = function(body: any, noteUUID: string) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -158,7 +174,7 @@ exports.updateNoteMetadataById = function(body,noteUUID) {
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-exports.updateSharedNoteContentById = function(noteUUID) {
+exports.updateSharedNoteContentById = function(noteUUID: string) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
