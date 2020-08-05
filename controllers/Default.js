@@ -3,6 +3,16 @@
 var utils = require('../utils/writer.js');
 var Default = require('../service/DefaultService');
 
+module.exports.createAccount = function createAccount (req, res, next, email) {
+  Default.createAccount(email)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.createNewNote = function createNewNote (req, res, next) {
   Default.createNewNote()
     .then(function (response) {

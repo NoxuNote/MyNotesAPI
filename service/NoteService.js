@@ -1,17 +1,4 @@
 'use strict';
-const db = require('../utils/dbConnection')
-
-/**
- *
- * email String Your email
- * no response value expected for this operation
- **/
-exports.createAccount = function(email) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
-}
-
 
 /**
  * Creates a new empty note
