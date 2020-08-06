@@ -5,11 +5,21 @@ import { Account } from "../orm/models/Account";
  * email String Your email
  * no response value expected for this operation
  **/
-exports.createAccount = function(email: string) {
-  Account.create({email: 'test'})
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.createAccount = async function(email: string) {
+  // const alreadyExistingAccount = await Account.findOne({
+  //   where: { 
+  //     email: email 
+  //   }
+  // })
+  // If account already exist, reject
+  // if (alreadyExistingAccount) Promise.reject("User already exists");
+  // Else create account
+  try {
+    await Account.create({email: email})
+    return "ok"
+  } catch(e) {
+    return Promise.reject("User already exists");
+  }
 }
 
 

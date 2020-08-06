@@ -13,13 +13,23 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
+    "@types/bluebird": "^3.5.26",
+    "@types/validator": "^13.1.0",
+    "bluebird": "^3.5.1",
     "connect": "^3.2.0",
     "js-yaml": "^3.3.0",
     "oas3-tools": "^2.0.2",
-    "sequelize": "^6.3.4"
+    "pg": "^8.3.0",
+    "reflect-metadata": "^0.1.10",
+    "sequelize": "^5.12.2",
+    "sequelize-typescript": "^1.0.0-beta.3",
+    "strong-error-handler": "^2.3.0"
   },
   "devDependencies": {
-    "@types/sequelize": "^4.28.9",
-    "nodemon": "^2.0.4"
+    "@types/express": "^4.0.39",
+    "@types/node": "^12.6.9",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
   }
 }

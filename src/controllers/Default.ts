@@ -1,124 +1,125 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var Default = require('../service/DefaultService');
+import { writeJson, respondWithCode } from "../utils/writer";
+
+var AccountService = require('../service/AccountService');
 
 module.exports.createAccount = function createAccount (req: any, res: any, next: any, email: any) {
-  Default.createAccount(email)
+  AccountService.createAccount(email)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, respondWithCode(403, response));
     });
 };
 
 module.exports.createNewNote = function createNewNote (req: any, res: any, next: any) {
-  Default.createNewNote()
+  AccountService.createNewNote()
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.deleteNoteById = function deleteNoteById (req: any, res: any, next: any, noteUUID: any) {
-  Default.deleteNoteById(noteUUID)
+  AccountService.deleteNoteById(noteUUID)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.getAllNoteMetadata = function getAllNoteMetadata (req: any, res: any, next: any) {
-  Default.getAllNoteMetadata()
+  AccountService.getAllNoteMetadata()
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.getAllSharedNoteMetadata = function getAllSharedNoteMetadata (req: any, res: any, next: any) {
-  Default.getAllSharedNoteMetadata()
+  AccountService.getAllSharedNoteMetadata()
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.getNoteContentById = function getNoteContentById (req: any, res: any, next: any, noteUUID: any) {
-  Default.getNoteContentById(noteUUID)
+  AccountService.getNoteContentById(noteUUID)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.getNoteMetadataById = function getNoteMetadataById (req: any, res: any, next: any, noteUUID: any) {
-  Default.getNoteMetadataById(noteUUID)
+  AccountService.getNoteMetadataById(noteUUID)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.getSharedNoteContentById = function getSharedNoteContentById (req: any, res: any, next: any, noteUUID: any) {
-  Default.getSharedNoteContentById(noteUUID)
+  AccountService.getSharedNoteContentById(noteUUID)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.getSharedNoteMetadataById = function getSharedNoteMetadataById (req: any, res: any, next: any, noteUUID: any) {
-  Default.getSharedNoteMetadataById(noteUUID)
+  AccountService.getSharedNoteMetadataById(noteUUID)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.updateNoteContentById = function updateNoteContentById (req: any, res: any, next: any, noteUUID: any) {
-  Default.updateNoteContentById(noteUUID)
+  AccountService.updateNoteContentById(noteUUID)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.updateNoteMetadataById = function updateNoteMetadataById (req: any, res: any, next: any, body: any, noteUUID: any) {
-  Default.updateNoteMetadataById(body, noteUUID)
+  AccountService.updateNoteMetadataById(body, noteUUID)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };
 
 module.exports.updateSharedNoteContentById = function updateSharedNoteContentById (req: any, res: any, next: any, noteUUID: any) {
-  Default.updateSharedNoteContentById(noteUUID)
+  AccountService.updateSharedNoteContentById(noteUUID)
     .then(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     })
     .catch(function (response: any) {
-      utils.writeJson(res, response);
+      writeJson(res, response);
     });
 };

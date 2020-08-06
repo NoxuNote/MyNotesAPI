@@ -1,13 +1,16 @@
 {
     "compilerOptions": {
-      "module": "commonjs",
-      "esModuleInterop": true,
       "target": "es6",
-      "suppressImplicitAnyIndexErrors": true,
+      "module": "commonjs",
       "moduleResolution": "node",
-      "noImplicitAny": true,
-      "removeComments": true,
-      "preserveConstEnums": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "noUnusedLocals": true,
+      "declaration": false,
+      "pretty": true,
+      "strictNullChecks": true,
+      "skipLibCheck": true,
+      "strictPropertyInitialization": true,
       "outDir": "./dist/",
       "sourceMap": true
     },

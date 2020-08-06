@@ -1,43 +1,16 @@
-import { Optional, DataTypes } from 'sequelize';
-import { Model } from 'sequelize';
-import { UUIDV4 } from 'sequelize';
-import { sequelize } from "../db";
+import { Model, Table, Column, PrimaryKey, Default, Unique } from "sequelize-typescript";
+import { UUIDV4 } from "sequelize";
 
-export interface AccountAttributes {
-    accountUuid: string;
-    email: string;
-}
+@Table
+export class Account extends Model<Account> {
 
-export interface AccountCreationAttributes extends Optional<AccountAttributes, "accountUuid"> {}
+    @PrimaryKey
+    @Default(UUIDV4)
+    @Column
+    accountUuid!: string
 
-export class Account extends Model<AccountAttributes, AccountCreationAttributes> implements AccountCreationAttributes {
-    public accountUuid!: string;
-    public email!: string;
-    // timestamps!
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+    @Unique
+    @Column
+    email!: string
 
 }
-console.log("Init Account")
-
-Account.init(
-    {
-        accountUuid: {
-            type: DataTypes.UUIDV4,
-            defaultValue: UUIDV4,
-            primaryKey: true
-        },
-        email: {
-            type: DataTypes.STRING,
-        }
-    },
-    {
-        tableName: "accounts",
-        sequelize // passing the `sequelize` instance is required
-    }
-)
-
-Account.sync()
-
-// Account.hasMany(NoteMetadata,   { foreignKey: 'accountUuid' })
-// Account.hasMany(NoteContent,    { foreignKey: 'accountUuid' })

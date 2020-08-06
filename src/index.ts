@@ -1,5 +1,7 @@
 'use strict';
 
+import { sequelize } from "./orm/db";
+
 var path = require('path');
 var http = require('http');
 
@@ -14,6 +16,8 @@ var options = {
 var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, '/../../environment/api/openapi.yaml'), options);
 expressAppConfig.addValidator();
 var app = expressAppConfig.getApp();
+
+sequelize.sync({force: true})
 
 // Initialize the Swagger middleware
 http.createServer(app).listen(serverPort, function () {

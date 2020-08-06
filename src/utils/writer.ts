@@ -11,7 +11,7 @@ export function respondWithCode(code: any, payload: any) {
   return new ResponsePayload(code, payload);
 }
 
-export function writeJson(response: any, arg1: any, arg2: any) {
+export function writeJson(response: any, arg1?: any, arg2?: any) {
   var code;
   var payload;
 

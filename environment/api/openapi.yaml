@@ -306,7 +306,8 @@ paths:
           allowEmptyValue: false
           x-last-modified: 1596663222011
           name: email
-      operationId: createAccount
+      operationId: createAccount      
+      x-swagger-router-controller: Default
       description: ''
       responses:
         '200':
