@@ -3,7 +3,7 @@ node_modules
 package-lock.json
 
 # editors
-.vscode
+# .vscode
 
 # environment files
 environment/environment.prod.ts
