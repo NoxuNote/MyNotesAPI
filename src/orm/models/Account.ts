@@ -1,5 +1,6 @@
-import { Model, Table, Column, PrimaryKey, Default, Unique, IsEmail, IsUUID, NotNull } from "sequelize-typescript";
-import { UUIDV4, UUID } from "sequelize";
+import { Model, Table, Column, PrimaryKey, Default, Unique, IsEmail, Index, HasMany, AllowNull } from "sequelize-typescript";
+import { UUIDV4, UUID, DataTypes } from "sequelize";
+import { NoteMetadata } from "./NoteMetadata";
 
 @Table
 export class Account extends Model<Account> {
@@ -9,13 +10,14 @@ export class Account extends Model<Account> {
     @Column(UUID)
     accountUuid!: string
 
+    @Index({type: 'UNIQUE', using: 'BTREE', order: 'DESC'})
     @Unique
-    @NotNull
+    @AllowNull(false)
     @IsEmail
     @Column
     email!: string
 
-    @Column
+    @Column(DataTypes.STRING)
     nickname!: string
     
     @Column
@@ -23,5 +25,8 @@ export class Account extends Model<Account> {
 
     @Column
     createdAt!: Date
+
+    @HasMany(() => NoteMetadata)
+    notes!: NoteMetadata[]
 
 }
