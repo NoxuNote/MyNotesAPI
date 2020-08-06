@@ -1,4 +1,4 @@
-import { Model, Table, Column, PrimaryKey, Default, Unique } from "sequelize-typescript";
+import { Model, Table, Column, PrimaryKey, Default, Unique, IsEmail, IsUUID, NotNull } from "sequelize-typescript";
 import { UUIDV4, UUID } from "sequelize";
 
 @Table
@@ -10,8 +10,13 @@ export class Account extends Model<Account> {
     accountUuid!: string
 
     @Unique
+    @NotNull
+    @IsEmail
     @Column
     email!: string
+
+    @Column
+    nickname!: string
     
     @Column
     updatedAt!: Date
