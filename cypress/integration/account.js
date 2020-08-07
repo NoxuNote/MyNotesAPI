@@ -2,7 +2,10 @@ describe('Account creation', () => {
     it('Create an account', () => {
         cy.request({
             method: 'POST',
-            url: 'http://localhost:8080/mynotes/account?email=test%40example.com',
+            url: 'http://localhost:8080/mynotes/account',
+            body: {
+                email: 'test@example.com'
+            },
             failOnStatusCode: false
         })
         .then((res) => {
