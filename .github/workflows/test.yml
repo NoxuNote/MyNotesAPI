@@ -35,16 +35,15 @@ jobs:
     - name: Build
       run: npm run build
     
-    - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+    - name: Setup PostgreSQL
       uses: Daniel-Marynicz/postgresql-action@0.1.0
       with:
-        # APP_USER - unprivileged postgres user
         app_user: test
-        # APP_PASSWORD_USER - password for unprivileged postgres user
         app_user_password: test
-        # APP_DB - database or list of databases separated by space for unprivileged postgres user
         app_db: test
       
-    - name: Test
-      run: npm test
+    - name: Run server
+      run: npm test & sleep 10
     
+    - name: Test
+      uses: cypress-io/github-action@v1.16.1
