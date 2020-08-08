@@ -1,8 +1,8 @@
-/*
- * Please duplicate this file and rename it like 'environment.prod.js"
- * Do not store credentials on git
- */
 module.exports = {
+    api: {
+        port: 8080,
+        cleanDbBeforeRun: true
+    },
     db: {
         dialect: 'postgres',
         host: 'localhost',

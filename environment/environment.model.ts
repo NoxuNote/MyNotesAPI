@@ -3,6 +3,10 @@
  * Do not store credentials on git
  */
 module.exports = {
+    api: {
+        port: 8080,
+        cleanDbBeforeRun: false
+    },
     db: {
         dialect: 'postgres',
         host: '',

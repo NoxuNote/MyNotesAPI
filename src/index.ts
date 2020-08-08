@@ -1,12 +1,13 @@
 'use strict';
 
 import { sequelize } from "./orm/db";
+const env = require('./utils/environment')
 
 var path = require('path');
 var http = require('http');
 
 var oas3Tools = require('oas3-tools');
-var serverPort = 8080;
+var serverPort = env.api.port;
 
 // swaggerRouter configuration
 var options = {
@@ -17,7 +18,7 @@ var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, '/../../e
 expressAppConfig.addValidator();
 var app = expressAppConfig.getApp();
 
-sequelize.sync({force: true})
+sequelize.sync({force: env.api.cleanDbBeforeRun})
 
 // Initialize the Swagger middleware
 http.createServer(app).listen(serverPort, function () {
