@@ -1,28 +1,30 @@
 'use strict';
 
+import { Application } from "express";
 import { sequelize } from "./orm/db";
-const env = require('./utils/environment')
 
-var path = require('path');
-var http = require('http');
-
-var oas3Tools = require('oas3-tools');
-var serverPort = env.api.port;
+const env       = require('./utils/environment')
+const path      = require('path');
+const http      = require('http');
+const oas3Tools = require('oas3-tools');
 
 // swaggerRouter configuration
-var options = {
+const options = {
     controllers: path.join(__dirname, './controllers')
 };
-
-var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, '/../../environment/api/openapi.yaml'), options);
+const expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, '/../../environment/api/openapi.yaml'), options);
 expressAppConfig.addValidator();
-var app = expressAppConfig.getApp();
+const app: Application = expressAppConfig.getApp();
 
+// Synchronize with DB
 sequelize.sync({force: env.api.cleanDbBeforeRun})
 
+// Redirect base paths to /docs
+app.get(['/', '/mynotes'], (req, res) => res.redirect('/docs'))
+
 // Initialize the Swagger middleware
-http.createServer(app).listen(serverPort, function () {
-    console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-    console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+http.createServer(app).listen(env.api.port, function () {
+    console.log('Server is listening on port %d (http://localhost:%d)', env.api.port, env.api.port);
+    console.log('Swagger-ui is available on http://localhost:%d/docs', env.api.port);
 });
 
