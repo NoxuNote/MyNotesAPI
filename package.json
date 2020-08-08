@@ -7,7 +7,8 @@
     "build": "npx -p typescript tsc",
     "start": "npm run build && node dist/src/index.js prod",
     "dev": "npm run build && npx nodemon dist/src/index.js prod",
-    "test": "npm run build && node dist/src/index.js test"
+    "test": "npm run build && node dist/src/index.js test",
+    "testui": "npx cypress open"
   },
   "keywords": [
     "swagger"
