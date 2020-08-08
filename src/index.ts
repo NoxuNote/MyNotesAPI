@@ -22,6 +22,13 @@ sequelize.sync({force: env.api.cleanDbBeforeRun})
 // Redirect base paths to /docs
 app.get(['/', '/mynotes'], (req, res) => res.redirect('/docs'))
 
+if (env.api.enableTestMode) {
+    console.warn("/!\\ TEST MODE IS ENABLED /!\\")
+    app.get('/mynotes/reset', (req, res) => {
+        sequelize.sync({ force: true }).then(() => res.sendStatus(200))
+    })
+}
+
 // Initialize the Swagger middleware
 http.createServer(app).listen(env.api.port, function () {
     console.log('Server is listening on port %d (http://localhost:%d)', env.api.port, env.api.port);

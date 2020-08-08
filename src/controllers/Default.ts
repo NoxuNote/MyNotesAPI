@@ -5,6 +5,7 @@ import { writeJson } from "../utils/writer";
 import * as AccountService from "../service/AccountService";
 import * as NoteService from "../service/NoteService"
 import * as SharedNotesService from "../service/SharedNotesService"
+import { getAccountUuid } from "../utils/authentication";
 
 export function createAccount(req: any, res: any, next: any, account: Partial<Account>) {
 	AccountService.createAccount(account)
@@ -13,13 +14,12 @@ export function createAccount(req: any, res: any, next: any, account: Partial<Ac
 };
 
 module.exports.createNewNote = function createNewNote(req: any, res: any, next: any) {
-	NoteService.createNewNote()
-		.then(function (response: any) {
-			writeJson(res, response);
-		})
-		.catch(function (response: any) {
-			writeJson(res, response);
-		});
+	const accountUuid = getAccountUuid(req, res)
+	if (accountUuid) {
+		NoteService.createNewNote(accountUuid)
+		.then(newNote => writeJson(res, newNote.toJSON()))
+		.catch(message => writeJson(res, message, 403));
+	}
 };
 
 module.exports.deleteNoteById = function deleteNoteById(req: any, res: any, next: any, noteUUID: any) {

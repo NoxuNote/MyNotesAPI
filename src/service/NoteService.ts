@@ -1,14 +1,23 @@
 'use strict';
 
+import { NoteMetadata } from "../orm/models/NoteMetadata";
+
 /**
  * Creates a new empty note
  *
  * no response value expected for this operation
  **/
-export async function createNewNote() {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+export async function createNewNote(accountUuid: string): Promise<NoteMetadata> {
+  try {
+    const newNote = await NoteMetadata.create({ accountUuid: accountUuid })
+    return newNote
+	} catch (e) {
+    if (e.name === 'SequelizeForeignKeyConstraintError') {
+      return Promise.reject("There is no account with this accountUuid, check your headers");
+    } else {
+      return Promise.reject("Internal error")
+    }
+	}
 }
 
 
