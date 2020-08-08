@@ -1,0 +1,15 @@
+{
+    "api":{
+       "port":8080,
+       "cleanDbBeforeRun":false,
+       "enableTestMode":false
+    },
+    "db":{
+       "dialect":"postgres",
+       "host":"",
+       "port":5432,
+       "username":"",
+       "password":"",
+       "database":""
+    }
+ }

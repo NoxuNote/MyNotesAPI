@@ -5,16 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build": "npx -p typescript tsc",
-    "start": "npm run build && node dist/src/index.js prod",
-    "dev": "npm run build && npx nodemon dist/src/index.js prod",
-    "test": "npm run build && node dist/src/index.js test",
+    "start": "npm run build && node dist/index.js prod",
+    "dev": "npx nodemon",
+    "test": "npm run build && node dist/index.js test",
     "testui": "npx cypress open"
   },
   "keywords": [
     "swagger"
   ],
-  "license": "Unlicense",
-  "private": true,
+  "license": "GPL-3.0",
   "dependencies": {
     "@types/bluebird": "^3.5.26",
     "@types/validator": "^13.1.0",
