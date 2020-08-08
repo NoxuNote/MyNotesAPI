@@ -31,6 +31,9 @@ paths:
               example: ''
           description: success
           x-last-modified: 1595062837872
+        '404':
+          description: ''
+          x-last-modified: 1596849342543
       operationId: getAllNoteMetadata
       summary: Get all your notes metadata
       x-swagger-router-controller: Default
@@ -291,39 +294,61 @@ paths:
   /account:
     summary: Other's note shared with me
     post:
-      parameters:
-        - deprecated: false
-          example: me@example.com
-          description: Your email
-          schema:
-            format: email
-            description: Your email
-            pattern: '(?:[a-z0-9!#$%&''*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])'
-            type: string
-            example: me@example.com
-          in: query
-          required: true
-          allowEmptyValue: false
-          x-last-modified: 1596663222011
-          name: email
-      operationId: createAccount      
-      x-swagger-router-controller: Default
-      description: ''
+      requestBody:
+        description: Provide informations about the account you are creating
+        content:
+          application/json:
+            schema:
+              description: Provide informations about the account you are creating
+              required:
+                - email
+              type: object
+              example:
+                email: me@example.com
+              properties:
+                email:
+                  type: string
+                  pattern: '(?:[a-z0-9!#$%&''*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])'
+            example:
+              email: me@example.com
+        required: true
       responses:
         '200':
+          content:
+            application/json:
+              example: |-
+                {
+                  "accountUuid": "d18dc42a-f6ab-42fb-8575-aa267fc81c29",
+                  "email": "me@example.com",
+                  "updatedAt": "2020-08-08T01:23:07.224Z",
+                  "createdAt": "2020-08-08T01:23:07.224Z",
+                  "nickname": null
+                }
           description: |-
             OK: account created
 
-            returns the UUID of the account
+            returns an object containing informations about created account such as email
+          x-last-modified: 1596850009579
+        '400':
           content:
-            text/plain:
+            application/json:
               schema:
-                example: ''
-                type: string
-                format: uuid
-                pattern: ''
-              example: ''
-          x-last-modified: 1596663297422
+                $ref: '#/components/schemas/Error'
+          description: Request body do not match pattern
+          x-last-modified: 1596850777333
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: User already exists
+          description: 'Could not create account, email probably already exist'
+          x-last-modified: 1596850755416
+      operationId: createAccount
+      summary: Create an account with body parameters
+      description: ''
+      x-swagger-router-controller: Default
     x-last-modified: 1596663175324
 components:
   schemas:
@@ -355,6 +380,14 @@ components:
           type: object
       example: ''
       x-last-modified: 1595062311235
+    Error:
+      description: A caught error
+      type: object
+      properties:
+        message:
+          type: string
+      example: ''
+      x-last-modified: 1596849198604
   parameters:
     noteUUID:
       deprecated: false

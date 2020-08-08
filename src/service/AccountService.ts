@@ -6,9 +6,9 @@ import { Account } from "../orm/models/Account";
  * @param email Your email
  * @return created account
  **/
-export async function createAccount(email: string): Promise<Account> {
+export async function createAccount(partialAccount: Partial<Account>): Promise<Account> {
 	try {
-		const createdAccount: Account = await Account.create({ email: email })
+		const createdAccount: Account = await Account.create(partialAccount)
 		return createdAccount
 	} catch (e) {
 		return Promise.reject("User already exists");

@@ -6,8 +6,8 @@ import * as AccountService from "../service/AccountService";
 import * as NoteService from "../service/NoteService"
 import * as SharedNotesService from "../service/SharedNotesService"
 
-export function createAccount(req: any, res: any, next: any, email: any) {
-	AccountService.createAccount(email)
+export function createAccount(req: any, res: any, next: any, account: Partial<Account>) {
+	AccountService.createAccount(account)
 		.then(newAccount => writeJson(res, newAccount.toJSON()))
 		.catch(message => writeJson(res, message, 403));
 };
