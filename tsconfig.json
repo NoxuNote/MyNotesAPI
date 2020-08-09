@@ -15,8 +15,7 @@
       "sourceMap": true
     },
     "include": [
-      "./**/*",
-      "./api/openapi.yaml"
+      "./**/*"
     ],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "exclude": ["node_modules", "**/*.spec.ts", "environment"]
     }

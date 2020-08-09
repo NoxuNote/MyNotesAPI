@@ -13,7 +13,7 @@ export function createAccount(req: any, res: any, next: any, account: Partial<Ac
 		.catch(message => writeJson(res, message, 403));
 };
 
-module.exports.createNewNote = function createNewNote(req: any, res: any, next: any) {
+export function createNewNote(req: any, res: any, next: any) {
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
 		NoteService.createNewNote(accountUuid)
