@@ -39,16 +39,12 @@ export async function deleteNoteById(noteUUID: string) {
  *
  * returns List
  **/
-export async function getAllNoteMetadata() {
-  return new Promise(function(resolve, reject) {
-    var examples: any = {};
-    examples['application/json'] = "";
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+export async function getAllNoteMetadata(accountUuid: string): Promise<NoteMetadata[]> {
+  return NoteMetadata.findAll({
+    where: {
+      accountUuid: accountUuid
     }
-  });
+  })
 }
 
 

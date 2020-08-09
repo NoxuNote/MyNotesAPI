@@ -32,14 +32,13 @@ module.exports.deleteNoteById = function deleteNoteById(req: any, res: any, next
 		});
 };
 
-module.exports.getAllNoteMetadata = function getAllNoteMetadata(req: any, res: any, next: any) {
-	NoteService.getAllNoteMetadata()
-		.then(function (response: any) {
-			writeJson(res, response);
-		})
-		.catch(function (response: any) {
-			writeJson(res, response);
-		});
+export function getAllNoteMetadata(req: any, res: any, next: any) {
+	const accountUuid = getAccountUuid(req, res)
+	if (accountUuid) {
+		NoteService.getAllNoteMetadata(accountUuid)
+		.then(notes => writeJson(res, notes.map(n => n.toJSON())))
+		.catch(message => writeJson(res, message, 403));
+	}
 };
 
 module.exports.getAllSharedNoteMetadata = function getAllSharedNoteMetadata(req: any, res: any, next: any) {
