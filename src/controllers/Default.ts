@@ -52,14 +52,13 @@ module.exports.getAllSharedNoteMetadata = function getAllSharedNoteMetadata(req:
 		});
 };
 
-module.exports.getNoteContentById = function getNoteContentById(req: Request, res: ServerResponse, next: any, noteUUID: any) {
-	NoteService.getNoteContentById(noteUUID)
-		.then(function (response: any) {
-			writeJson(res, response);
-		})
-		.catch(function (response: any) {
-			writeJson(res, response);
-		});
+export function getNoteContentById(req: Request, res: ServerResponse, next: any, noteUUID: any) {
+	const accountUuid = getAccountUuid(req, res)
+	if (accountUuid) {
+		NoteService.getNoteContentById(noteUUID, accountUuid)
+		.then(content => writeJson(res, content))
+		.catch(message => writeJson(res, message, 404));
+	}
 };
 
 export function getNoteMetadataById(req: Request, res: ServerResponse, next: any, noteUUID: any) {
