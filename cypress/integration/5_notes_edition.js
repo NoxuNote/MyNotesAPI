@@ -1,4 +1,4 @@
-describe('Note creation and listing', () => {
+describe('Note edition', () => {
     it('Reset database', () => {
         cy.visit('http://localhost:8080/mynotes/')
         cy.request({
@@ -6,24 +6,6 @@ describe('Note creation and listing', () => {
             url: 'http://localhost:8080/mynotes/reset',
         })
         .then(res => expect(res.status).to.eq(200))
-    })
-    it('Should list 0 notes', () => {
-        cy.request({
-            method: 'GET',
-            url: 'http://localhost:8080/mynotes/notes',
-            headers: {
-                "X-Api-User-Id": Cypress.env('accountUuid')
-            },
-            failOnStatusCode: false
-        })
-        .then((res) => {
-            expect(res.headers['content-type']).to.eq('application/json')
-            expect(res.status).to.eq(200)
-            expect(res.body).to.have.lengthOf(0)
-            cy.log('Response :')
-            cy.log(JSON.stringify(res.body))
-            cy.log(JSON.stringify(res.headers))
-        })
     })
     it('Create an account', () => {
         cy.request({
@@ -60,47 +42,60 @@ describe('Note creation and listing', () => {
                 expect(res.body).to.have.property('title')
                 expect(res.body.title).to.not.eq('')
                 expect(res.body.accountUuid).to.eq(Cypress.env('accountUuid'))
+                Cypress.env('uuid' + i, res.body.uuid)
             })
         }
     })
-    it('Should list those 2 notes', () => {
+    it('Should return note content', () => {
+        for (let i = 0; i < 2; i++) {     
+            cy.request({
+                method: 'GET',
+                url: `http://localhost:8080/mynotes/notes/${Cypress.env(`uuid${i}`)}/content`,
+                headers: {
+                    "X-Api-User-Id": Cypress.env('accountUuid')
+                },
+                failOnStatusCode: false
+            })
+            .then((res) => {
+                expect(res.status).to.eq(200)
+                expect(res.body).to.eq('{}')
+            })
+        }
+    })
+    it('Should update note 0 content', () => {
+        Cypress.env('newContent0', {"time":1589235091957,"blocks":[{"type":"paragraph","data":{"text":"dsqdqsdqs"}},{"type":"paragraph","data":{"text":"dsqdqsdqs"}},{"type":"header","data":{"text":"dsqdsqdqsd","level":2}}],"version":"2.16.1"})
+        cy.log(Cypress.env(`uuid0`))
+        cy.request({
+            method: 'PUT',
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env(`uuid0`)}/content`,
+            headers: {
+                "X-Api-User-Id": Cypress.env('accountUuid'),
+                "Content-type": "text/plain",
+                "charset": "utf8"
+            },
+            body: Cypress.env('newContent0'),
+            failOnStatusCode: false
+        })
+        .then((res) => {
+            expect(res.status).to.eq(200)
+        })
+    })
+    it('Should return new note contents', () => {
         cy.request({
             method: 'GET',
-            url: 'http://localhost:8080/mynotes/notes',
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env(`uuid0`)}/content`,
             headers: {
                 "X-Api-User-Id": Cypress.env('accountUuid')
             },
             failOnStatusCode: false
         })
         .then((res) => {
-            expect(res.headers['content-type']).to.eq('application/json')
             expect(res.status).to.eq(200)
-            expect(res.body).to.have.lengthOf(2)
-            cy.log('Response :')
-            cy.log(JSON.stringify(res.body))
-            cy.log(JSON.stringify(res.headers))
-            Cypress.env('uuid1', res.body[0].uuid)
+            expect(res.body).to.eq(JSON.stringify(Cypress.env('newContent0')))
         })
-    })
-    it('Should return 1 note metadata', () => {
         cy.request({
             method: 'GET',
-            url: `http://localhost:8080/mynotes/notes/${Cypress.env('uuid1')}`,
-            headers: {
-                "X-Api-User-Id": Cypress.env('accountUuid')
-            },
-            failOnStatusCode: false
-        })
-        .then((res) => {
-            expect(res.status).to.eq(200)
-            expect(res.body.accountUuid).to.eq(Cypress.env('accountUuid'))
-            expect(res.body.uuid).to.eq(Cypress.env('uuid1'))
-        })
-    })
-    it('Should return 1 note content', () => {
-        cy.request({
-            method: 'GET',
-            url: `http://localhost:8080/mynotes/notes/${Cypress.env('uuid1')}/content`,
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env(`uuid1`)}/content`,
             headers: {
                 "X-Api-User-Id": Cypress.env('accountUuid')
             },
@@ -111,7 +106,7 @@ describe('Note creation and listing', () => {
             expect(res.body).to.eq('{}')
         })
     })
-    it('Create another account with it\' own note', () => {
+    it('Create another account with it\'s own note', () => {
         cy.request({
             method: 'POST',
             url: 'http://localhost:8080/mynotes/account',
@@ -145,22 +140,33 @@ describe('Note creation and listing', () => {
             })
         })
     })
-    it('Should list again 2 notes', () => {
+    it('Should not update other account content', () => {
+        cy.log(Cypress.env(`uuid0`))
         cy.request({
-            method: 'GET',
-            url: 'http://localhost:8080/mynotes/notes',
+            method: 'PUT',
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env(`otherAccountNote`)}/content`,
             headers: {
-                "X-Api-User-Id": Cypress.env('accountUuid')
+                "X-Api-User-Id": Cypress.env('accountUuid'),
+                "Content-type": "text/plain",
+                "charset": "utf8"
             },
+            body: Cypress.env('newContent0'),
             failOnStatusCode: false
         })
         .then((res) => {
-            expect(res.headers['content-type']).to.eq('application/json')
-            expect(res.status).to.eq(200)
-            expect(res.body).to.have.lengthOf(2)
-            cy.log('Response :')
-            cy.log(JSON.stringify(res.body))
-            cy.log(JSON.stringify(res.headers))
+            expect(res.status).to.eq(404)
+            cy.request({
+                method: 'GET',
+                url: `http://localhost:8080/mynotes/notes/${Cypress.env(`otherAccountNote`)}/content`,
+                headers: {
+                    "X-Api-User-Id": Cypress.env('accountUuid2')
+                },
+                failOnStatusCode: false
+            })
+            .then((res) => {
+                expect(res.status).to.eq(200)
+                expect(res.body).to.eq('{}')
+            })
         })
     })
 })

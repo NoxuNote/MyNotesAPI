@@ -102,10 +102,20 @@ export async function getNoteMetadataById(noteUUID: string, accountUuid: string)
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-export async function updateNoteContentById(noteUUID: string) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+export async function updateNoteContentById(noteUUID: string, accountUuid: string, content: string): Promise<void> {
+  const noteContent = await getNoteContentById(noteUUID, accountUuid)
+  if (noteContent) {
+    try {
+      noteContent.content = content
+      await noteContent.save()
+      return
+    } catch(e) {
+      return Promise.reject('Could not save content, probably it is incorrect')
+    }
+  } else {
+    return Promise.reject('Cannot find note with this uuid')
+  }
+
 }
 
 

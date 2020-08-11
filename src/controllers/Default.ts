@@ -24,7 +24,6 @@ export function createNewNote(req: Request, res: ServerResponse, next: any) {
 };
 
 export function deleteNoteById(req: Request, res: ServerResponse, next: any, noteUUID: string) {	
-	console.log("coucou")
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
 		NoteService.deleteNoteById(noteUUID, accountUuid)
@@ -90,14 +89,13 @@ module.exports.getSharedNoteMetadataById = function getSharedNoteMetadataById(re
 		});
 };
 
-module.exports.updateNoteContentById = function updateNoteContentById(req: Request, res: ServerResponse, next: any, noteUUID: any) {
-	NoteService.updateNoteContentById(noteUUID)
-		.then(function (response: any) {
-			writeJson(res, response);
-		})
-		.catch(function (response: any) {
-			writeJson(res, response);
-		});
+export function updateNoteContentById(req: Request, res: ServerResponse, next: any, content: any, noteUUID: any) {
+	const accountUuid = getAccountUuid(req, res)
+	if (accountUuid) {
+		NoteService.updateNoteContentById(noteUUID, accountUuid, content)
+		.then(() => sendStatus(res, 200))
+		.catch(message => writeJson(res, message, 404));
+	}
 };
 
 module.exports.updateNoteMetadataById = function updateNoteMetadataById(req: Request, res: ServerResponse, next: any, body: any, noteUUID: any) {

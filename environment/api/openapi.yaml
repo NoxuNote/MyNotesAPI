@@ -167,7 +167,7 @@ paths:
     put:
       requestBody:
         content:
-          application/json: {}
+          text/plain: {}
         required: true
       tags: []
       parameters:

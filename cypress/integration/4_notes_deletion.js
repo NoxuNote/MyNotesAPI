@@ -46,7 +46,7 @@ describe('Note deletion', () => {
             })
         }
     })
-    it('Create another account with his own note', () => {
+    it('Create another account with it\' own note', () => {
         cy.request({
             method: 'POST',
             url: 'http://localhost:8080/mynotes/account',
