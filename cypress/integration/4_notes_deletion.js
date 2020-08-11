@@ -42,7 +42,7 @@ describe('Note deletion', () => {
                 expect(res.body).to.have.property('title')
                 expect(res.body.title).to.not.eq('')
                 expect(res.body.accountUuid).to.eq(Cypress.env('accountUuid'))
-                if (i == 0) Cypress.env('uuid1', res.body.uuid)
+                Cypress.env('uuid' + i, res.body.uuid)
             })
         }
     })
@@ -80,6 +80,30 @@ describe('Note deletion', () => {
             })
         })
     })
+    it('Should read note details', () => {
+        cy.request({
+            method: 'GET',
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env('uuid1')}`,
+            headers: {
+                "X-Api-User-Id": Cypress.env('accountUuid')
+            },
+            failOnStatusCode: false
+        })
+        .then((res) => {
+            expect(res.status).to.eq(200)
+            cy.request({
+                method: 'GET',
+                url: `http://localhost:8080/mynotes/notes/${Cypress.env('uuid1')}/content`,
+                headers: {
+                    "X-Api-User-Id": Cypress.env('accountUuid')
+                },
+                failOnStatusCode: false
+            })
+            .then((res) => {
+                expect(res.status).to.eq(200)
+            })
+        })
+    })
     it('Delete note one of my notes', () => {
         cy.log(Cypress.env('accountUuid'))
         cy.request({
@@ -92,6 +116,30 @@ describe('Note deletion', () => {
         })
         .then((res) => {
             expect(res.status).to.eq(200)
+        })
+    })
+    it('Should have deleted note', () => {
+        cy.request({
+            method: 'GET',
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env('uuid1')}`,
+            headers: {
+                "X-Api-User-Id": Cypress.env('accountUuid')
+            },
+            failOnStatusCode: false
+        })
+        .then((res) => {
+            expect(res.status).to.eq(404)
+            cy.request({
+                method: 'GET',
+                url: `http://localhost:8080/mynotes/notes/${Cypress.env('uuid1')}/content`,
+                headers: {
+                    "X-Api-User-Id": Cypress.env('accountUuid')
+                },
+                failOnStatusCode: false
+            })
+            .then((res) => {
+                expect(res.status).to.eq(404)
+            })
         })
     })
     it('Should list 1 note', () => {
