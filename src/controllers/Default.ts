@@ -1,6 +1,6 @@
 'use strict';
 
-import { writeJson, sendStatus } from "../utils/writer";
+import { writeJson, sendStatus, writeMessage } from "../utils/writer";
 
 import * as AccountService from "../service/AccountService";
 import * as NoteService from "../service/NoteService"
@@ -11,7 +11,7 @@ import { ServerResponse } from "http";
 export function createAccount(req: Request, res: ServerResponse, next: any, account: Partial<Account>) {
 	AccountService.createAccount(account)
 		.then(newAccount => writeJson(res, newAccount.toJSON()))
-		.catch(message => writeJson(res, message, 403));
+		.catch(message => writeMessage(res, message, 403));
 };
 
 export function createNewNote(req: Request, res: ServerResponse, next: any) {
@@ -19,7 +19,7 @@ export function createNewNote(req: Request, res: ServerResponse, next: any) {
 	if (accountUuid) {
 		NoteService.createNewNote(accountUuid)
 		.then(newNote => writeJson(res, newNote.toJSON()))
-		.catch(message => writeJson(res, message, 403));
+		.catch(message => writeMessage(res, message, 403));
 	}
 };
 
@@ -29,7 +29,7 @@ export function deleteNoteById(req: Request, res: ServerResponse, next: any, not
 	if (accountUuid) {
 		NoteService.deleteNoteById(noteUUID, accountUuid)
 		.then(() => sendStatus(res, 200))
-		.catch(message => writeJson(res, message, 404));
+		.catch(message => writeMessage(res, message, 404));
 	}
 };
 
@@ -38,7 +38,7 @@ export function getAllNoteMetadata(req: Request, res: ServerResponse, next: any)
 	if (accountUuid) {
 		NoteService.getAllNoteMetadata(accountUuid)
 		.then(notes => writeJson(res, notes.map(n => n.toJSON())))
-		.catch(message => writeJson(res, message, 403));
+		.catch(message => writeMessage(res, message, 403));
 	}
 };
 
@@ -56,7 +56,7 @@ export function getNoteContentById(req: Request, res: ServerResponse, next: any,
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
 		NoteService.getNoteContentById(noteUUID, accountUuid)
-		.then(content => writeJson(res, content))
+		.then(noteContent => writeJson(res, noteContent.content))
 		.catch(message => writeJson(res, message, 404));
 	}
 };

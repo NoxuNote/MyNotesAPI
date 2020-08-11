@@ -1,6 +1,7 @@
 'use strict';
 
 import { NoteMetadata } from "../orm/models/NoteMetadata";
+import { NoteContent } from "../orm/models/NoteContent";
 
 /**
  * Creates a new empty note
@@ -9,8 +10,9 @@ import { NoteMetadata } from "../orm/models/NoteMetadata";
  **/
 export async function createNewNote(accountUuid: string): Promise<NoteMetadata> {
   try {
-    const newNote = await NoteMetadata.create({ accountUuid: accountUuid })
-    return newNote
+    const meta = await NoteMetadata.create({ accountUuid: accountUuid })
+    await NoteContent.create({ uuid: meta.uuid })
+    return meta
 	} catch (e) {
     if (e.name === 'SequelizeForeignKeyConstraintError') {
       return Promise.reject("There is no account with this accountUuid, check your headers");
@@ -63,10 +65,16 @@ export async function getAllNoteMetadata(accountUuid: string): Promise<NoteMetad
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-export async function getNoteContentById(noteUUID: string) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+export async function getNoteContentById(noteUUID: string, accountUuid: string): Promise<NoteContent> {
+  const note = await NoteMetadata.findOne({
+    where: { 
+      uuid: noteUUID,
+      accountUuid: accountUuid
+    },
+    include: [ NoteContent ]
+  })
+  if (note) return note.noteContent
+  return Promise.reject("There is no note with this note uuid")
 }
 
 

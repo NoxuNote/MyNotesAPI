@@ -97,6 +97,20 @@ describe('Note creation and listing', () => {
             expect(res.body.uuid).to.eq(Cypress.env('uuid1'))
         })
     })
+    it('Should return 1 note content', () => {
+        cy.request({
+            method: 'GET',
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env('uuid1')}/content`,
+            headers: {
+                "X-Api-User-Id": Cypress.env('accountUuid')
+            },
+            failOnStatusCode: false
+        })
+        .then((res) => {
+            expect(res.status).to.eq(200)
+            cy.log(JSON.stringify(res.body))
+        })
+    })
     it('Create another account with his own note', () => {
         cy.request({
             method: 'POST',
