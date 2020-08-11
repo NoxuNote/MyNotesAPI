@@ -89,11 +89,14 @@ paths:
           explode: false
           example: ''
           name: noteUUID
+          description: UUID of note to return
           schema:
-            $ref: '#/components/parameters/noteUUID'
+            format: uuid
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+            type: string
           in: path
           required: true
-          x-last-modified: 1595064569185
+          x-last-modified: 1595064519010
       responses:
         '200':
           description: success
@@ -112,11 +115,14 @@ paths:
           explode: false
           example: ''
           name: noteUUID
+          description: UUID of note to return
           schema:
-            $ref: '#/components/parameters/noteUUID'
+            format: uuid
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+            type: string
           in: path
           required: true
-          x-last-modified: 1595064588319
+          x-last-modified: 1595064519010
       responses:
         '200':
           description: ok
@@ -138,11 +144,14 @@ paths:
           explode: false
           example: ''
           name: noteUUID
+          description: UUID of note to return
           schema:
-            $ref: '#/components/parameters/noteUUID'
+            format: uuid
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+            type: string
           in: path
           required: true
-          x-last-modified: 1595064605656
+          x-last-modified: 1595064519010
       responses:
         '200':
           content:
@@ -167,11 +176,14 @@ paths:
           explode: false
           example: ''
           name: noteUUID
+          description: UUID of note to return
           schema:
-            $ref: '#/components/parameters/noteUUID'
+            format: uuid
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+            type: string
           in: path
           required: true
-          x-last-modified: 1595064623833
+          x-last-modified: 1595064519010
       responses:
         '200':
           description: success
@@ -214,11 +226,14 @@ paths:
           explode: false
           example: ''
           name: noteUUID
+          description: UUID of note to return
           schema:
-            $ref: '#/components/parameters/noteUUID'
+            format: uuid
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+            type: string
           in: path
           required: true
-          x-last-modified: 1595064656706
+          x-last-modified: 1595064519010
       responses:
         '200':
           content:
@@ -244,11 +259,14 @@ paths:
           explode: false
           example: ''
           name: noteUUID
+          description: UUID of note to return
           schema:
-            $ref: '#/components/parameters/noteUUID'
+            format: uuid
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+            type: string
           in: path
           required: true
-          x-last-modified: 1595065059595
+          x-last-modified: 1595064519010
       responses:
         '200':
           content:
@@ -272,11 +290,14 @@ paths:
           explode: false
           example: ''
           name: noteUUID
+          description: UUID of note to return
           schema:
-            $ref: '#/components/parameters/noteUUID'
+            format: uuid
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+            type: string
           in: path
           required: true
-          x-last-modified: 1595065147392
+          x-last-modified: 1595064519010
       responses:
         '200':
           description: success

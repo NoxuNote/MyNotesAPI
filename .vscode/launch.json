@@ -8,7 +8,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/dist/src/index.js",
+            "program": "${workspaceFolder}/dist/index.js",
             "args": ["prod"],
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [

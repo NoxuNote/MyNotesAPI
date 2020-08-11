@@ -82,6 +82,21 @@ describe('Note creation and listing', () => {
             Cypress.env('uuid1', res.body[0].uuid)
         })
     })
+    it('Should return 1 note metadata', () => {
+        cy.request({
+            method: 'GET',
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env('uuid1')}`,
+            headers: {
+                "X-Api-User-Id": Cypress.env('accountUuid')
+            },
+            failOnStatusCode: false
+        })
+        .then((res) => {
+            expect(res.status).to.eq(200)
+            expect(res.body.accountUuid).to.eq(Cypress.env('accountUuid'))
+            expect(res.body.uuid).to.eq(Cypress.env('uuid1'))
+        })
+    })
     it('Create another account with his own note', () => {
         cy.request({
             method: 'POST',
@@ -112,6 +127,7 @@ describe('Note creation and listing', () => {
                 expect(res.body).to.have.property('title')
                 expect(res.body.title).to.not.eq('')
                 expect(res.body.accountUuid).to.eq(Cypress.env('accountUuid2'))
+                Cypress.env('otherAccountNote', res.body.uuid)
             })
         })
     })

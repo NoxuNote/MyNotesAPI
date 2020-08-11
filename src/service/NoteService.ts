@@ -27,10 +27,17 @@ export async function createNewNote(accountUuid: string): Promise<NoteMetadata> 
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-export async function deleteNoteById(noteUUID: string) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+export async function deleteNoteById(noteUUID: string, accountUuid: string): Promise<void> {
+  const noteMetadata = await NoteMetadata.findOne({ 
+    where: { 
+      uuid: noteUUID,
+      accountUuid: accountUuid
+    } 
+  })
+  if (noteMetadata) {
+    return noteMetadata.destroy()
+  }
+  return Promise.reject("There is no note with this note uuid")
 }
 
 
@@ -69,16 +76,15 @@ export async function getNoteContentById(noteUUID: string) {
  * noteUUID UUID UUID of note to return
  * returns NoteMetadata
  **/
-export async function getNoteMetadataById(noteUUID: string) {
-  return new Promise(function(resolve, reject) {
-    var examples: any = {};
-    examples['application/json'] = "";
-    if (Object.keys(examples).length > 0) {
-      Promise.resolve(examples[Object.keys(examples)[0]]);
-    } else {
-        Promise.resolve();
+export async function getNoteMetadataById(noteUUID: string, accountUuid: string): Promise<NoteMetadata> {
+  const meta = await NoteMetadata.findOne({ 
+    where: {
+      uuid: noteUUID,
+      accountUuid: accountUuid 
     }
-  });
+  })
+  if (meta) return meta
+  return Promise.reject("There is no note with this UUID")
 }
 
 
