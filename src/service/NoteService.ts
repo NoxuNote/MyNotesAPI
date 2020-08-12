@@ -126,8 +126,39 @@ export async function updateNoteContentById(noteUUID: string, accountUuid: strin
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-export async function updateNoteMetadataById(body: any, noteUUID: string) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+export async function updateNoteMetadataById(body: Partial<NoteMetadata>, noteUUID: string, accountUuid: string): Promise<NoteMetadata> {
+  const meta = await getNoteMetadataById(noteUUID, accountUuid)
+  if (meta) {
+    try {
+      /**
+       * Properties, the api caller is allowed to update
+       */
+      const allowedChange = ["title", "description", "author", "lastEdit", "version", "data"]
+      /**
+       * Subset of properties that can't be undefined or null
+       */
+      const notNull = ["title", "lastEdit", "version", "data"]
+      const notEmpty = ["title"]
+      let touched = false
+      allowedChange.forEach(k => {
+        // If the inner request includes one of allowed change keys
+        if (Object.keys(body).includes(k)) {
+          // Check if it's part of subset
+          if (notNull.includes(k) && (body[k]==undefined || body[k]==null)) {
+            throw new Error('This key should not be null : ' + k)
+          }
+          if (notEmpty.includes(k) && body[k].trim()=="") {
+            throw new Error('This key should not be empty : ' + k)
+          }
+          meta[k] = body[k]
+          touched = true
+        }
+      })
+      return touched ? meta.save() : meta
+    } catch(e) {
+      return Promise.reject('Cannot save new properties. ' + e?.message)
+    }
+  } else {
+    return Promise.reject('Cannot find note with this uuid')
+  }
 }

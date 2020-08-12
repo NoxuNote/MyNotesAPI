@@ -81,7 +81,11 @@ paths:
       x-swagger-router-controller: Default
     put:
       requestBody:
-        $ref: '#/components/requestBodies/NoteMetadata'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/NoteMetadata'
+        required: true
       tags: []
       parameters:
         - deprecated: false
@@ -103,6 +107,9 @@ paths:
           x-last-modified: 1595063497643
         '404':
           description: note doesn't exist on your account
+          x-last-modified: 1595063683236
+        '400':
+          description: could not save new metadata
           x-last-modified: 1595063683236
       operationId: updateNoteMetadataById
       summary: Update already existing note
