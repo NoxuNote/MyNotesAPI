@@ -1,29 +1,10 @@
 describe('Note creation and listing', () => {
     it('Reset database', () => {
-        cy.visit('http://localhost:8080/mynotes/')
-        cy.request({
+         cy.request({
             method: 'GET',
             url: 'http://localhost:8080/mynotes/reset',
         })
         .then(res => expect(res.status).to.eq(200))
-    })
-    it('Should list 0 notes', () => {
-        cy.request({
-            method: 'GET',
-            url: 'http://localhost:8080/mynotes/notes',
-            headers: {
-                "X-Api-User-Id": Cypress.env('accountUuid')
-            },
-            failOnStatusCode: false
-        })
-        .then((res) => {
-            expect(res.headers['content-type']).to.eq('application/json')
-            expect(res.status).to.eq(200)
-            expect(res.body).to.have.lengthOf(0)
-            cy.log('Response :')
-            cy.log(JSON.stringify(res.body))
-            cy.log(JSON.stringify(res.headers))
-        })
     })
     it('Create an account', () => {
         cy.request({

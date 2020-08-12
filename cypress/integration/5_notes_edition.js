@@ -1,7 +1,6 @@
 describe('Note edition', () => {
     it('Reset database', () => {
-        cy.visit('http://localhost:8080/mynotes/')
-        cy.request({
+         cy.request({
             method: 'GET',
             url: 'http://localhost:8080/mynotes/reset',
         })

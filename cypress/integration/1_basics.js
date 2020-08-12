@@ -1,4 +1,11 @@
 describe('API Basics', () => {
+    it('Reset database', () => {
+         cy.request({
+            method: 'GET',
+            url: 'http://localhost:8080/mynotes/reset',
+        })
+        .then(res => expect(res.status).to.eq(200))
+    })
     it('Should respond to /', () => {
         cy.request({
             method: 'GET',
