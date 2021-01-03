@@ -17,28 +17,23 @@ paths:
   /notes:
     summary: All your note metadata
     get:
-      tags: []
+      
       responses:
         '200':
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/NoteMetadata'
-                example: ''
-                x-content-type: application/json
-              example: ''
+                $ref: '#/components/schemas/NoteMetadatas'
           description: success
           x-last-modified: 1595062837872
         '404':
-          description: ''
+          description: Note doesn't exist        
           x-last-modified: 1596849342543
       operationId: getAllNoteMetadata
       summary: Get all your notes metadata
       x-swagger-router-controller: Default
     post:
-      tags: []
+      
       responses:
         '200':
           description: Success
@@ -47,25 +42,12 @@ paths:
       summary: Creates a new empty note
       x-swagger-router-controller: Default
     x-last-modified: 1594740636921
-  '/notes/{noteUUID}':
+  '/notes/{note_uuid}':
     summary: Id based note metadata
     get:
-      tags: []
+      
       parameters:
-        - deprecated: false
-          style: simple
-          explode: false
-          example: ''
-          name: noteUUID
-          description: UUID of note to return
-          schema:
-            format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
-            type: string
-          in: path
-          required: true
-          x-last-modified: 1595064519010
+        - $ref: '#/components/parameters/note_uuid'
       responses:
         '200':
           content:
@@ -87,52 +69,26 @@ paths:
             schema:
               $ref: '#/components/schemas/NoteMetadata'
         required: true
-      tags: []
+      
       parameters:
-        - deprecated: false
-          style: simple
-          explode: false
-          example: ''
-          name: noteUUID
-          description: UUID of note to return
-          schema:
-            format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
-            type: string
-          in: path
-          required: true
-          x-last-modified: 1595064519010
+        - $ref: '#/components/parameters/note_uuid'
       responses:
         '200':
           description: success
           x-last-modified: 1595063497643
-        '400':
-          description: could not save new metadata
-          x-last-modified: 1595063683236
         '404':
           description: note doesn't exist on your account
+          x-last-modified: 1595063683236
+        '400':
+          description: could not save new metadata
           x-last-modified: 1595063683236
       operationId: updateNoteMetadataById
       summary: Update already existing note
       x-swagger-router-controller: Default
     delete:
-      tags: []
+      
       parameters:
-        - deprecated: false
-          style: simple
-          explode: false
-          example: ''
-          name: noteUUID
-          description: UUID of note to return
-          schema:
-            format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
-            type: string
-          in: path
-          required: true
-          x-last-modified: 1595064519010
+        - $ref: '#/components/parameters/note_uuid'
       responses:
         '200':
           description: ok
@@ -144,25 +100,12 @@ paths:
       summary: Delete an already existing note
       x-swagger-router-controller: Default
     x-last-modified: 1594740651194
-  '/notes/{noteUUID}/content':
+  '/notes/{note_uuid}/content':
     summary: Id based note content
     get:
-      tags: []
+      
       parameters:
-        - deprecated: false
-          style: simple
-          explode: false
-          example: ''
-          name: noteUUID
-          description: UUID of note to return
-          schema:
-            format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
-            type: string
-          in: path
-          required: true
-          x-last-modified: 1595064519010
+        - $ref: '#/components/parameters/note_uuid'
       responses:
         '200':
           content:
@@ -178,24 +121,13 @@ paths:
     put:
       requestBody:
         content:
-          text/plain: {}
-        required: true
-      tags: []
+          text/plain:
+            schema:
+              type: string
+              format: binary
+        required: false
       parameters:
-        - deprecated: false
-          style: simple
-          explode: false
-          example: ''
-          name: noteUUID
-          description: UUID of note to return
-          schema:
-            format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
-            type: string
-          in: path
-          required: true
-          x-last-modified: 1595064519010
+        - $ref: '#/components/parameters/note_uuid'
       responses:
         '200':
           description: success
@@ -207,46 +139,28 @@ paths:
       summary: Update an already existing note content
       x-swagger-router-controller: Default
     x-last-modified: 1594740661418
-  /sharedNotes/:
+  /shared_notes/:
     summary: Other's note shared with me
     get:
-      tags: []
+      
       responses:
         '200':
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/NoteMetadata'
-                example: ''
-                x-content-type: application/json
-              example: ''
+                $ref: '#/components/schemas/NoteMetadatas'
           description: success
           x-last-modified: 1595064244239
       operationId: getAllSharedNoteMetadata
       summary: Get all notes other users shared with you
       x-swagger-router-controller: Default
     x-last-modified: 1594740963115
-  '/sharedNotes/{noteUUID}':
+  '/shared_notes/{note_uuid}':
     summary: Other's note shared with me
     get:
-      tags: []
+      
       parameters:
-        - deprecated: false
-          style: simple
-          explode: false
-          example: ''
-          name: noteUUID
-          description: UUID of note to return
-          schema:
-            format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
-            type: string
-          in: path
-          required: true
-          x-last-modified: 1595064519010
+        - $ref: '#/components/parameters/note_uuid'
       responses:
         '200':
           content:
@@ -262,33 +176,16 @@ paths:
       summary: Get an already existing and shared with you note metadata
       x-swagger-router-controller: Default
     x-last-modified: 1594741002087
-  '/sharedNotes/{noteUUID}/content':
+  '/shared_notes/{note_uuid}/content':
     summary: Other's note shared with me
     get:
-      tags: []
+      
       parameters:
-        - deprecated: false
-          style: simple
-          explode: false
-          example: ''
-          name: noteUUID
-          description: UUID of note to return
-          schema:
-            format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
-            type: string
-          in: path
-          required: true
-          x-last-modified: 1595064519010
+        - $ref: '#/components/parameters/note_uuid'
       responses:
         '200':
           content:
-            application/json:
-              schema:
-                example: ''
-                x-content-type: application/json
-              example: ''
+            application/json: {}
           description: success
           x-last-modified: 1595065086026
         '404':
@@ -299,20 +196,7 @@ paths:
       x-swagger-router-controller: Default
     put:
       parameters:
-        - deprecated: false
-          style: simple
-          explode: false
-          example: ''
-          name: noteUUID
-          description: UUID of note to return
-          schema:
-            format: uuid
-            pattern: >-
-              ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
-            type: string
-          in: path
-          required: true
-          x-last-modified: 1595064519010
+        - $ref: '#/components/parameters/note_uuid'
       responses:
         '200':
           description: success
@@ -331,6 +215,7 @@ paths:
     summary: Other's note shared with me
     post:
       requestBody:
+        x-name: account
         description: Provide informations about the account you are creating
         content:
           application/json:
@@ -339,13 +224,12 @@ paths:
               required:
                 - email
               type: object
+              example:
+                email: me@example.com
               properties:
                 email:
                   type: string
-                  pattern: >-
-                    (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
-              example:
-                email: me@example.com
+                  pattern: '(?:[a-z0-9!#$%&''*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])'
             example:
               email: me@example.com
         required: true
@@ -361,12 +245,10 @@ paths:
                   "createdAt": "2020-08-08T01:23:07.224Z",
                   "nickname": null
                 }
-          description: >-
+          description: |-
             OK: account created
 
-
-            returns an object containing informations about created account such
-            as email
+            returns an object containing informations about created account such as email
           x-last-modified: 1596850009579
         '400':
           content:
@@ -386,7 +268,7 @@ paths:
           x-last-modified: 1596850755416
       operationId: createAccount
       summary: Create an account with body parameters
-      description: ''
+      
       x-swagger-router-controller: Default
     x-last-modified: 1596663175324
 components:
@@ -417,8 +299,11 @@ components:
           type: string
         data:
           type: object
-      example: ''
       x-last-modified: 1595062311235
+    NoteMetadatas:
+      type: array
+      items:
+        $ref: '#/components/schemas/NoteMetadata'
     Error:
       description: A caught error
       type: object
@@ -428,24 +313,25 @@ components:
       example: ''
       x-last-modified: 1596849198604
   parameters:
-    noteUUID:
+    note_uuid:
       deprecated: false
       style: simple
       explode: false
       example: ''
-      name: noteUUID
+      name: note_uuid
       description: UUID of note to return
       schema:
-        format: uuid
         pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
         type: string
       in: path
       required: true
       x-last-modified: 1595064519010
+  requestBodies: {}
   securitySchemes: {}
   responses: {}
 externalDocs:
   description: External description
   url: 'https://api.noxunote.fr/docs/mynotes'
-tags: []
+
 security: []
+

@@ -156,7 +156,7 @@ export async function updateNoteMetadataById(body: Partial<NoteMetadata>, noteUU
       })
       return touched ? meta.save() : meta
     } catch(e) {
-      return Promise.reject('Cannot save new properties. ' + e?.message)
+      return Promise.reject('Cannot save new properties. ' + e.message)
     }
   } else {
     return Promise.reject('Cannot find note with this uuid')

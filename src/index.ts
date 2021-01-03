@@ -1,37 +1,50 @@
-'use strict';
+'use strict'
 
-import { Application } from "express";
-import { sequelize } from "./orm/db";
+import { sequelize } from "./orm/db"
 
-const env       = require('./utils/environment')
-const path      = require('path');
-const http      = require('http');
-const oas3Tools = require('oas3-tools');
+const env = require('./utils/environment')
+const path = require('path')
+const http = require('http')
+const oasTools = require('oas-tools')
+const jsyaml = require('js-yaml')
+const fs = require('fs')
+const express = require('express')
+const bodyParser = require('body-parser')
 
-// swaggerRouter configuration
-const options = {
-    controllers: path.join(__dirname, './controllers')
-};
-const expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, '../environment/api/openapi.yaml'), options);
-expressAppConfig.addValidator();
-const app: Application = expressAppConfig.getApp();
+const spec = fs.readFileSync(path.join(__dirname, '../environment/api/openapi.yaml'), 'utf8')
+const oasDoc = jsyaml.safeLoad(spec)
 
-// Synchronize with DB
-sequelize.sync({force: env.api.cleanDbBeforeRun})
-
-// Redirect base paths to /docs
-app.get(['/', '/mynotes'], (req, res) => res.redirect('/docs'))
-
-if (env.api.enableTestMode) {
-    console.warn("/!\\ TEST MODE IS ENABLED /!\\")
-    app.get('/mynotes/reset', (req, res) => {
-        sequelize.sync({ force: true }).then(() => res.sendStatus(200))
-    })
+var options_object = {
+    controllers: path.join(__dirname, './controllers'),
+    checkControllers: true,
+    loglevel: 'debug',
+    logfile: 'logs.txt',
+    ignoreUnknownFormats: false
 }
 
-// Initialize the Swagger middleware
-http.createServer(app).listen(env.api.port, function () {
-    console.log('Server is listening on port %d (http://localhost:%d)', env.api.port, env.api.port);
-    console.log('Swagger-ui is available on http://localhost:%d/docs', env.api.port);
-});
+oasTools.configure(options_object)
 
+// Synchronize with DB
+sequelize.sync({ force: env.api.cleanDbBeforeRun })
+
+const app = express()
+app.use(bodyParser.json())
+
+oasTools.initialize(oasDoc, app, function() {
+    // Redirect base paths to /docs
+    app.get(['/', '/mynotes'], (req, res) => res.redirect('/docs'))
+
+
+    if (env.api.enableTestMode) {
+        console.warn("/!\\ TEST MODE IS ENABLED /!\\")
+        app.get('/mynotes/reset', (req, res) => {
+            sequelize.sync({ force: true }).then(() => res.sendStatus(200))
+        })
+    }
+
+    http.createServer(app).listen(env.api.port, function () {
+        console.log('Server is listening on port %d (http://localhost:%d)', env.api.port, env.api.port)
+        console.log('Swagger-ui is available on http://localhost:%d/docs', env.api.port)
+    })
+
+})
