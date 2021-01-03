@@ -8,7 +8,8 @@ export function isAuthenticated(req: Request): boolean {
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/g
     return (
         req.headers['x-api-user-id'] && 
-        req.headers['x-api-user-id'].match(uuidPattern)?.length == 1
+        req.headers['x-api-user-id'].match(uuidPattern) &&
+        req.headers['x-api-user-id'].match(uuidPattern).length == 1
     )
 }
 

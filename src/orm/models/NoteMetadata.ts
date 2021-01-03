@@ -19,8 +19,13 @@ export class NoteMetadata extends Model<NoteMetadata> {
     @Column(DataTypes.TEXT)
     description!: string
 
-    @Column
+    @Column(DataTypes.TEXT)
     author!: string
+
+    @AllowNull(false)
+    @Default(new Date())
+    @Column
+    createdAt!: Date
 
     @AllowNull(false)
     @Index({order: 'DESC'})

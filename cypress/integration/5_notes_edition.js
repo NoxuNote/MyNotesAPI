@@ -61,6 +61,24 @@ describe('Note edition', () => {
             })
         }
     })
+    it('Should accept corrupted JSON', () => {
+        Cypress.env('newContent0', '{"time:1589235091957,"blocks":[{"type":"paragraph","data"{"text":"dsqdqsdqs"}},{"type":"paragraph","data":{"text":"dsqdqsdqs"}},{"type":"header","data":{"text":"dsqdsqdqsd","level":2}}],"version":"2.16.1"}')
+        cy.log(Cypress.env(`uuid0`))
+        cy.request({
+            method: 'PUT',
+            url: `http://localhost:8080/mynotes/notes/${Cypress.env(`uuid0`)}/content`,
+            headers: {
+                "X-Api-User-Id": Cypress.env('accountUuid'),
+                "Content-type": "text/plain",
+                "charset": "utf8"
+            },
+            body: Cypress.env('newContent0'),
+            failOnStatusCode: false
+        })
+        .then((res) => {
+            expect(res.status).to.eq(200)
+        })
+    })
     it('Should update note 0 content', () => {
         Cypress.env('newContent0', {"time":1589235091957,"blocks":[{"type":"paragraph","data":{"text":"dsqdqsdqs"}},{"type":"paragraph","data":{"text":"dsqdqsdqs"}},{"type":"header","data":{"text":"dsqdsqdqsd","level":2}}],"version":"2.16.1"})
         cy.log(Cypress.env(`uuid0`))
