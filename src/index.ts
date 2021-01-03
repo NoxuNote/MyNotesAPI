@@ -29,6 +29,8 @@ sequelize.sync({ force: env.api.cleanDbBeforeRun })
 
 const app = express()
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.text())
 
 oasTools.initialize(oasDoc, app, function() {
     // Redirect base paths to /docs

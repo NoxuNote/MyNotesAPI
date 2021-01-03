@@ -149,13 +149,14 @@ describe('Note metadata edition', () => {
                 "test": "test",
                 "test": "test",
                 "array": ["a"],
-                "uuid": "aaa",
-                "accountUuid": "bbb",
+                "uuid": "d92fa1ce-d2c2-41fe-a68b-0961cc3f6d53",
+                "accountUuid": "d92fa1ce-d2c2-41fe-a68b-0961cc3f6d53",
                 "noteContent": "aa"
             },
             failOnStatusCode: false
         })
         .then((res) => {
+            cy.log(res)
             expect(res.status).to.eq(200)
             const removeDates = obj => {return { ...obj, createdAt: undefined, updatedAt: undefined } }
             expect(
@@ -335,7 +336,7 @@ describe('Note metadata edition', () => {
             },
             body: {
                 "title": "NEWTITLE",
-                "uuid": "blabla"
+                "uuid": "d92fa1ce-d2c2-41fe-a68b-0961cc3f6d53"
             },
             failOnStatusCode: false
         })

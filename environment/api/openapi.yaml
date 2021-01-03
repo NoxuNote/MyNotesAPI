@@ -79,7 +79,7 @@ paths:
         '404':
           description: note doesn't exist on your account
           x-last-modified: 1595063683236
-        '400':
+        '401':
           description: could not save new metadata
           x-last-modified: 1595063683236
       operationId: updateNoteMetadataById
@@ -103,7 +103,6 @@ paths:
   '/notes/{note_uuid}/content':
     summary: Id based note content
     get:
-      
       parameters:
         - $ref: '#/components/parameters/note_uuid'
       responses:
@@ -124,8 +123,7 @@ paths:
           text/plain:
             schema:
               type: string
-              format: binary
-        required: false
+        required: true
       parameters:
         - $ref: '#/components/parameters/note_uuid'
       responses:
@@ -275,28 +273,29 @@ components:
   schemas:
     NoteMetadata:
       description: Métadonnées associées à une note
-      required:
-        - author
-        - data
-        - description
-        - lastedit
-        - title
-        - uuid
-        - version
       type: object
       properties:
         uuid:
           type: string
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
         title:
           type: string
         description:
           type: string
+          nullable: true
         author:
           type: string
-        lastedit:
+          nullable: true
+        createdAt:
           type: string
+          format: date-time
+          nullable: true
+        lastEdit:
+          type: string
+          format: date-time
+          nullable: true
         version:
-          type: string
+          type: integer
         data:
           type: object
       x-last-modified: 1595062311235

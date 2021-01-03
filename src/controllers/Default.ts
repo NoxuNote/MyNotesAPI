@@ -7,15 +7,23 @@ import * as NoteService from "../service/NoteService"
 import * as SharedNotesService from "../service/SharedNotesService"
 import { getAccountUuid } from "../utils/authentication";
 import { ServerResponse } from "http";
-import { NoteMetadata } from "../orm/models/NoteMetadata";
+import { Account } from "../orm/models/Account"
 
-export function createAccount(req: Request, res: ServerResponse, next: Function, account: Partial<Account>) {
+interface SwaggerRequest extends Request {
+	swagger: {
+		params: any
+	}
+	body: any
+}
+
+export function createAccount(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	let account: Partial<Account> = req.swagger.params.account.value
 	AccountService.createAccount(account)
 		.then(newAccount => writeJson(res, newAccount.toJSON()))
 		.catch(message => writeMessage(res, message, 403));
 };
 
-export function createNewNote(req: Request, res: ServerResponse, next: Function) {
+export function createNewNote(req: SwaggerRequest, res: ServerResponse, next: Function) {
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
 		NoteService.createNewNote(accountUuid)
@@ -24,7 +32,8 @@ export function createNewNote(req: Request, res: ServerResponse, next: Function)
 	}
 };
 
-export function deleteNoteById(req: Request, res: ServerResponse, next: Function, noteUUID: string) {	
+export function deleteNoteById(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const noteUUID: string = req.swagger.params.note_uuid.value	
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
 		NoteService.deleteNoteById(noteUUID, accountUuid)
@@ -33,7 +42,7 @@ export function deleteNoteById(req: Request, res: ServerResponse, next: Function
 	}
 };
 
-export function getAllNoteMetadata(req: Request, res: ServerResponse, next: Function) {
+export function getAllNoteMetadata(req: SwaggerRequest, res: ServerResponse, next: Function) {
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
 		NoteService.getAllNoteMetadata(accountUuid)
@@ -42,7 +51,7 @@ export function getAllNoteMetadata(req: Request, res: ServerResponse, next: Func
 	}
 };
 
-module.exports.getAllSharedNoteMetadata = function getAllSharedNoteMetadata(req: Request, res: ServerResponse, next: Function) {
+module.exports.getAllSharedNoteMetadata = function getAllSharedNoteMetadata(req: SwaggerRequest, res: ServerResponse, next: Function) {
 	SharedNotesService.getAllSharedNoteMetadata()
 		.then(function (response: any) {
 			writeJson(res, response);
@@ -52,7 +61,8 @@ module.exports.getAllSharedNoteMetadata = function getAllSharedNoteMetadata(req:
 		});
 };
 
-export function getNoteContentById(req: Request, res: ServerResponse, next: Function, noteUUID: string) {
+export function getNoteContentById(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const noteUUID: string = req.swagger.params.note_uuid.value	
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
 		NoteService.getNoteContentById(noteUUID, accountUuid)
@@ -61,7 +71,8 @@ export function getNoteContentById(req: Request, res: ServerResponse, next: Func
 	}
 };
 
-export function getNoteMetadataById(req: Request, res: ServerResponse, next: Function, noteUUID: string) {
+export function getNoteMetadataById(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const noteUUID: string = req.swagger.params.note_uuid.value	
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
 		NoteService.getNoteMetadataById(noteUUID, accountUuid)
@@ -70,7 +81,8 @@ export function getNoteMetadataById(req: Request, res: ServerResponse, next: Fun
 	}
 };
 
-module.exports.getSharedNoteContentById = function getSharedNoteContentById(req: Request, res: ServerResponse, next: Function, noteUUID: string) {
+module.exports.getSharedNoteContentById = function getSharedNoteContentById(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const noteUUID: string = req.swagger.params.note_uuid.value	
 	SharedNotesService.getSharedNoteContentById(noteUUID)
 		.then(function (response: any) {
 			writeJson(res, response);
@@ -80,7 +92,8 @@ module.exports.getSharedNoteContentById = function getSharedNoteContentById(req:
 		});
 };
 
-module.exports.getSharedNoteMetadataById = function getSharedNoteMetadataById(req: Request, res: ServerResponse, next: Function, noteUUID: string) {
+module.exports.getSharedNoteMetadataById = function getSharedNoteMetadataById(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const noteUUID: string = req.swagger.params.note_uuid.value	
 	SharedNotesService.getSharedNoteMetadataById(noteUUID)
 		.then(function (response: any) {
 			writeJson(res, response);
@@ -90,25 +103,29 @@ module.exports.getSharedNoteMetadataById = function getSharedNoteMetadataById(re
 		});
 };
 
-export function updateNoteContentById(req: Request, res: ServerResponse, next: Function, body: string, noteUUID: string) {
+export function updateNoteContentById(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const noteUUID: string = req.swagger.params.note_uuid.value	
+	// const body: string = req.swagger.operation.requestBody
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
-		NoteService.updateNoteContentById(noteUUID, accountUuid, body)
+		NoteService.updateNoteContentById(noteUUID, accountUuid, req.body)
 		.then(() => sendStatus(res, 200))
 		.catch(message => writeJson(res, message, 404));
 	}
 };
 
-export function updateNoteMetadataById(req: Request, res: ServerResponse, next: Function, body: Partial<NoteMetadata>, noteUUID: string) {
+export function updateNoteMetadataById(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const noteUUID: string = req.swagger.params.note_uuid.value	
 	const accountUuid = getAccountUuid(req, res)
 	if (accountUuid) {
-		NoteService.updateNoteMetadataById(body, noteUUID, accountUuid)
+		NoteService.updateNoteMetadataById(req.body, noteUUID, accountUuid)
 		.then(newMeta => writeJson(res, newMeta))
-		.catch(message => writeJson(res, message, 400));
+		.catch(message => writeJson(res, message, 401));
 	}
 };
 
-module.exports.updateSharedNoteContentById = function updateSharedNoteContentById(req: Request, res: ServerResponse, next: Function, noteUUID: string) {
+module.exports.updateSharedNoteContentById = function updateSharedNoteContentById(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const noteUUID: string = req.swagger.params.note_uuid.value	
 	SharedNotesService.updateSharedNoteContentById(noteUUID)
 		.then(function (response: any) {
 			writeJson(res, response);
