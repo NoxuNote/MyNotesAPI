@@ -4,7 +4,15 @@
  * returns List
  **/
 export async function getAllSharedNoteMetadata() {
-    return Promise.reject("Not yet implemented.")
+    return new Promise(function (resolve, reject) {
+        var examples: any = {};
+        examples['application/json'] = "";
+        if (Object.keys(examples).length > 0) {
+            resolve(examples[Object.keys(examples)[0]]);
+        } else {
+            resolve();
+        }
+    });
 }
 
 /**
@@ -14,8 +22,9 @@ export async function getAllSharedNoteMetadata() {
  * no response value expected for this operation
  **/
 export async function getSharedNoteContentById(noteUUID: string) {
-    return Promise.reject("Not yet implemented.")
-
+    return new Promise(function (resolve, reject) {
+        resolve();
+    });
 }
 
 
@@ -26,7 +35,15 @@ export async function getSharedNoteContentById(noteUUID: string) {
  * returns NoteMetadata
  **/
 export async function getSharedNoteMetadataById(noteUUID: string) {
-    return Promise.reject("Not yet implemented.")
+    return new Promise(function (resolve, reject) {
+        var examples: any = {};
+        examples['application/json'] = "";
+        if (Object.keys(examples).length > 0) {
+            resolve(examples[Object.keys(examples)[0]]);
+        } else {
+            resolve();
+        }
+    });
 }
 
 /**
@@ -36,5 +53,7 @@ export async function getSharedNoteMetadataById(noteUUID: string) {
  * no response value expected for this operation
  **/
 export async function updateSharedNoteContentById(noteUUID: string) {
-    return Promise.reject("Not yet implemented.")
+    return new Promise(function (resolve, reject) {
+        resolve();
+    });
 }
