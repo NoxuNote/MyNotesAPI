@@ -84,7 +84,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/requestBodies/NoteMetadata'
+              $ref: '#/components/schemas/NoteMetadata'
         required: true
       tags: []
       parameters:

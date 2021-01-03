@@ -13,7 +13,6 @@ const options = {
     controllers: path.join(__dirname, './controllers')
 };
 const expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, '../environment/api/openapi.yaml'), options);
-expressAppConfig.addValidator();
 const app: Application = expressAppConfig.getApp();
 
 // Synchronize with DB
