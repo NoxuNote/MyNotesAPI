@@ -5,7 +5,7 @@ import { NoteContent } from './models/NoteContent';
 
 export const sequelize = new Sequelize({
         "dialect":"postgres",
-        "host":"intranet",
+        "host":"postgres",
         "port":5432,
         "username":process.env.POSTGRES_USER,
         "password":process.env.POSTGRES_PASSWORD,
