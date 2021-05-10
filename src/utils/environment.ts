@@ -14,7 +14,7 @@ let env;
 if (process.argv[2] == "prod") {
     env = {
         "api":{
-            "port": 8080,
+            "port": process.env.PORT,
             "cleanDbBeforeRun":false,
             "enableTestMode":false
         }
