@@ -12,7 +12,7 @@ export class NoteContent extends Model<NoteContent> {
     uuid!: string;
     
     @AllowNull(false)
-    @Default('{}')
+    @Default('{ "time": 1621267535000, "blocks": []}')
     @Column(DataTypes.TEXT)
     content!: string;
     
