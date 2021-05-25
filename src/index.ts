@@ -26,6 +26,10 @@ oasTools.configure(options_object)
 
 // Synchronize with DB
 sequelize.sync({ force: env.api.cleanDbBeforeRun })
+.then(()=>fs.readFile(path.join(__dirname, '../init_db.sql'),'utf-8', (err, sql)=>{
+    if(err)console.error(err)
+    sequelize.query(sql)
+}))
 
 const app = express()
 app.use(bodyParser.json())
