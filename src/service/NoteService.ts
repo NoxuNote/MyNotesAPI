@@ -102,13 +102,14 @@ export async function getNoteMetadataById(noteUUID: string, accountUuid: string)
  * noteUUID #/components/parameters/noteUUID 
  * no response value expected for this operation
  **/
-export async function updateNoteContentById(noteUUID: string, accountUuid: string, content: string): Promise<void> {
+export async function updateNoteContentById(noteUUID: string, accountUuid: string, content: string): Promise<any> {
   const noteContent = await getNoteContentById(noteUUID, accountUuid)
-  if (noteContent) {
+  const noteMetadata = await getNoteMetadataById(noteUUID, accountUuid)
+  if (noteContent && noteMetadata) {
     try {
       noteContent.content = content
-      await noteContent.save()
-      return
+      noteMetadata.lastEdit = new Date()
+      return Promise.all([noteContent.save(), noteMetadata.save()])
     } catch(e) {
       return Promise.reject('Could not save content, probably it is incorrect')
     }
@@ -133,7 +134,7 @@ export async function updateNoteMetadataById(body: Partial<NoteMetadata>, noteUU
       /**
        * Properties, the api caller is allowed to update
        */
-      const allowedChange = ["title", "description", "author", "lastEdit", "version", "data"]
+      const allowedChange = ["title", "description", "author", "version", "data"]
       /**
        * Subset of properties that can't be undefined or null
        */
@@ -154,6 +155,7 @@ export async function updateNoteMetadataById(body: Partial<NoteMetadata>, noteUU
           touched = true
         }
       })
+      meta.lastEdit = new Date()
       return touched ? meta.save() : meta
     } catch(e) {
       return Promise.reject('Cannot save new properties. ' + e.message)
