@@ -9,7 +9,7 @@ export const sequelize = new Sequelize({
         "port": parseInt(process.env.DB_PORT || "5432"),
         "username": process.env.DB_USER,
         "password": process.env.DB_PASSWORD,
-        "database": process.env.DB_TABLE,
+        "database": process.env.DB_DB,
     models: [
         Account,
         NoteMetadata,
