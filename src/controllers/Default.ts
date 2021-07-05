@@ -16,10 +16,6 @@ interface SwaggerRequest extends Request {
 	body: any
 }
 
-export function healthCheck(req: SwaggerRequest, res: ServerResponse, next: Function) {
-	writeJson(res, { "status": "ok" })
-}
-
 export function createAccount(req: SwaggerRequest, res: ServerResponse, next: Function) {
 	let account: Partial<Account> = req.swagger.params.account.value
 	AccountService.createAccount(account)
