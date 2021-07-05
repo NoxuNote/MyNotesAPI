@@ -23,10 +23,10 @@ paths:
         '503':
           description: 'unhealthy service'
       operationId: healthCheck
+      x-swagger-router-controller: Default
   /notes:
     summary: All your note metadata
     get:
-      
       responses:
         '200':
           content:
