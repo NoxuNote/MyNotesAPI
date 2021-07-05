@@ -1,25 +1,15 @@
 // const path = require('path')
 // const fs = require('fs')
-console.log(`Using ${process.argv[2]} environment.`)
 
-let env;
-// let envPath = path.join(__dirname, `../../environment/environment.${process.argv[2]}.json`)
-// try {
-//     env = JSON.parse(fs.readFileSync(envPath))
-// } catch {
-//     throw new Error(`Cannot find '${envPath}' environment. Please create a 'environment/environment.${process.argv[2]}.ts' file.`)
-// }
+let isProduction = (process.env.ENV || process.argv[2]) != "dev"
+console.log(`Using ${isProduction ? 'prod' : 'dev'} environment.`)
 
-
-if (process.argv[2] == "prod") {
-    env = {
-        "api":{
-            "port": process.env.PORT,
-            "cleanDbBeforeRun":false,
-            "enableTestMode":false
-        }
+let env = {
+    "api":{
+        "port": process.env.PORT,
+        "cleanDbBeforeRun": !isProduction,
+        "enableTestMode": !isProduction
     }
-    
 }
 
 export = env

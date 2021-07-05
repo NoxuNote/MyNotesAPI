@@ -4,12 +4,12 @@ import { NoteMetadata } from './models/NoteMetadata';
 import { NoteContent } from './models/NoteContent';
 
 export const sequelize = new Sequelize({
-        "dialect":"postgres",
-        "host":"postgres",
-        "port":5432,
-        "username":process.env.POSTGRES_USER,
-        "password":process.env.POSTGRES_PASSWORD,
-        "database":process.env.POSTGRES_DB,
+        "dialect":"DB",
+        "host": process.env.DB_HOST,
+        "port": process.env.DB_PORT,
+        "username": process.env.DB_USER,
+        "password": process.env.DB_PASSWORD,
+        "database": process.env.DB_DB,
     models: [
         Account,
         NoteMetadata,
