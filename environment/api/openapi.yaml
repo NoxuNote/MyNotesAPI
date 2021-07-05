@@ -12,8 +12,17 @@ info:
   x-logo:
     url: 'https://noxunote.fr/prototype/assets/img/site-header-logo.png'
 servers:
-  - url: 'https://api.noxunote.fr/mynotes'
+  - url: 'https://cloud.noxunote.fr/mynotes'
 paths:
+  /health:
+    get:
+      summary: Control ready state of the application
+      responses:
+        '200':
+          description: 'health check report'
+        '503':
+          description: 'unhealthy service'
+      operationId: healthCheck
   /notes:
     summary: All your note metadata
     get:
