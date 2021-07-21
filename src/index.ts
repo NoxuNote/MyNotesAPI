@@ -26,17 +26,21 @@ oasTools.configure(options_object)
 
 // Synchronize with DB
 sequelize.sync({ force: env.api.cleanDbBeforeRun })
-.then(()=>fs.readFile(path.join(__dirname, '../init_db.sql'),'utf-8', (err, sql)=>{
-    if(err)console.error(err)
-    sequelize.query(sql)
-}))
+    .catch(() => {
+        console.error("Unable to sync with DB, exiting with error code 2.")
+        process.exit(2)
+    })
+    .then(() => fs.readFile(path.join(__dirname, '../init_db.sql'), 'utf-8', (err, sql) => {
+        if (err) console.error(err)
+        sequelize.query(sql).catch(() => console.warn("Unable to re-create triggers, skipping."))
+    }))
 
 const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.text())
 
-oasTools.initialize(oasDoc, app, function() {
+oasTools.initialize(oasDoc, app, function () {
     // Redirect base paths to /docs
     app.get(['/', '/mynotes'], (req, res) => res.redirect('/docs'))
 
