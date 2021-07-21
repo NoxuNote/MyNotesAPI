@@ -1,6 +1,6 @@
 -- FUNCTION: public.DeleteAccount()
 
-DROP FUNCTION public."DeleteAccount"() CASCADE;
+-- DROP FUNCTION public."DeleteAccount"() CASCADE;
 
 CREATE FUNCTION public."DeleteAccount"()
     RETURNS trigger
@@ -21,7 +21,7 @@ ALTER FUNCTION public."DeleteAccount"()
 
 -- FUNCTION: public.DuplicateAccount()
 
-DROP FUNCTION public."DuplicateAccount"() CASCADE;
+-- DROP FUNCTION public."DuplicateAccount"() CASCADE;
 
 CREATE FUNCTION public."DuplicateAccount"()
     RETURNS trigger
@@ -43,7 +43,7 @@ ALTER FUNCTION public."DuplicateAccount"()
 
 -- FUNCTION: public.UpdateAccount()
 
-DROP FUNCTION public."UpdateAccount"() CASCADE;
+-- DROP FUNCTION public."UpdateAccount"() CASCADE;
 
 CREATE FUNCTION public."UpdateAccount"()
     RETURNS trigger
