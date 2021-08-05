@@ -41,9 +41,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.text())
 
 oasTools.initialize(oasDoc, app, function () {
-    // Redirect base paths to /docs
-    app.get(['/', '/mynotes'], (req, res) => res.redirect('/docs'))
-
 
     if (env.api.enableTestMode) {
         console.warn("/!\\ TEST MODE IS ENABLED /!\\")
