@@ -189,9 +189,9 @@ export async function importNoteMetadata(body: Partial<NoteMetadata>, accountUui
         meta[k] = body[k]
       }
     })
-    await NoteMetadata.create({ ...meta, accountUuid: accountUuid })
-    await NoteContent.create({ uuid: meta.uuid })
-    return meta
+    const newMeta = await createNewNote(accountUuid)
+    Object.assign(newMeta, meta)
+    return newMeta.save()
   } catch(e) {
     return Promise.reject('Cannot save new properties. ' + e.message)
   }
