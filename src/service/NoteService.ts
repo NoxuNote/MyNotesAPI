@@ -171,7 +171,7 @@ export async function updateNoteMetadataById(body: Partial<NoteMetadata>, noteUU
  * no response value expected for this operation
  **/
 export async function importNoteMetadata(body: Partial<NoteMetadata>, accountUuid: string): Promise<NoteMetadata> {
-  const meta: NoteMetadata = new NoteMetadata()
+  const meta = {}
   if (!body.uuid) return Promise.reject("Missing uuid")
   // Check if uuid is taken
   if(await NoteMetadata.findByPk(body.uuid)) return Promise.reject("UUID already taken")
@@ -191,6 +191,7 @@ export async function importNoteMetadata(body: Partial<NoteMetadata>, accountUui
     })
     const newMeta = await createNewNote(accountUuid)
     Object.assign(newMeta, meta)
+    console.debug("Assigning", meta)
     return newMeta.save()
   } catch(e) {
     return Promise.reject('Cannot save new properties. ' + e.message)
