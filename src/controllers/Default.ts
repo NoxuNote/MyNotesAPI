@@ -35,7 +35,16 @@ export function createNewNote(req: SwaggerRequest, res: ServerResponse, next: Fu
 		.catch(message => writeMessage(res, message, 403));
 	}
 };
-
+export function importNoteMetadata(req: SwaggerRequest, res: ServerResponse, next: Function) {
+	const accountUuid = getAccountUuid(req, res)
+	const noteUUID: string = req.swagger.params.note_uuid.value	
+	if (req.body.uuid != noteUUID) writeMessage(res, "Invalid request : parameter uuid and body uuid mismatch.", 400)
+	if (accountUuid) {
+		NoteService.importNoteMetadata(req.body, accountUuid)
+		.then(newNote => writeJson(res, newNote.toJSON()))
+		.catch(message => writeMessage(res, message, 403));
+	}
+}
 export function deleteNoteById(req: SwaggerRequest, res: ServerResponse, next: Function) {
 	const noteUUID: string = req.swagger.params.note_uuid.value	
 	const accountUuid = getAccountUuid(req, res)

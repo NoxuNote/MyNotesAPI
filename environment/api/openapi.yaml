@@ -94,6 +94,28 @@ paths:
       operationId: updateNoteMetadataById
       summary: Update already existing note
       x-swagger-router-controller: Default
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteMetadata'
+        required: true
+      parameters:
+        - $ref: '#/components/parameters/note_uuid'
+      responses:
+        '200':
+          description: success
+          x-last-modified: 1595063497643
+        '401':
+          description: could not save new metadata
+          x-last-modified: 1595063683236
+        '400':
+          description: parameter uuid and body uuid mismatch.
+          x-last-modified: 1595063683236
+      operationId: importNoteMetadata
+      summary: Import an already existing note metadata
+      x-swagger-router-controller: Default
     delete:
       
       parameters:
