@@ -189,6 +189,7 @@ export async function importNoteMetadata(body: Partial<NoteMetadata>, accountUui
         meta[k] = body[k]
       }
     })
+    meta.accountUuid = accountUuid
     return meta.save()
   } catch(e) {
     return Promise.reject('Cannot save new properties. ' + e.message)
