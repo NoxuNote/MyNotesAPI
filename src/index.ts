@@ -19,7 +19,11 @@ var options_object = {
     checkControllers: true,
     loglevel: 'debug',
     logfile: 'logs.txt',
-    ignoreUnknownFormats: false
+    ignoreUnknownFormats: false,
+    docs: {
+        swaggerUi: '/docs',
+        swaggerUiPrefix: '/mynotes'
+    }
 }
 
 oasTools.configure(options_object)
