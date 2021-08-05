@@ -22,7 +22,9 @@ var options_object = {
     ignoreUnknownFormats: false,
     docs: {
         swaggerUi: '/docs',
-        swaggerUiPrefix: '/mynotes'
+        swaggerUiPrefix: '/mynotes',
+        apiDocs: '/api-docs',
+        apiDocsPrefix: '/mynotes'
     }
 }
 
