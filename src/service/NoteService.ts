@@ -176,7 +176,7 @@ export async function importNoteMetadata(body: Partial<NoteMetadata>, accountUui
   // Check if uuid is taken
   if(await NoteMetadata.findByPk(body.uuid)) return Promise.reject("UUID already taken")
   try {
-    allowedChange.forEach(k => {
+    [...allowedChange, "uuid"].forEach(k => {
       // If the inner request includes one of allowed change keys
       if (Object.keys(body).includes(k)) {
         // Check if it's part of subset
@@ -189,10 +189,9 @@ export async function importNoteMetadata(body: Partial<NoteMetadata>, accountUui
         meta[k] = body[k]
       }
     })
-    const newMeta = await createNewNote(accountUuid)
-    Object.assign(newMeta, meta)
-    console.debug("Assigning", meta)
-    return newMeta.save()
+    const newMeta = await NoteMetadata.create({ ...meta, accountUuid: accountUuid })
+    await NoteContent.create({ uuid: newMeta.uuid })
+    return newMeta
   } catch(e) {
     return Promise.reject('Cannot save new properties. ' + e.message)
   }
