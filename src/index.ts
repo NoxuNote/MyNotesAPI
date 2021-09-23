@@ -32,8 +32,8 @@ oasTools.configure(options_object)
 
 // Synchronize with DB
 sequelize.sync({ force: env.api.cleanDbBeforeRun })
-    .catch(() => {
-        console.error("Unable to sync with DB, exiting with error code 2.")
+    .catch(e => {
+        console.error("Unable to sync with DB, exiting with error code 2.", e)
         process.exit(2)
     })
     .then(() => fs.readFile(path.join(__dirname, '../init_db.sql'), 'utf-8', (err, sql) => {
